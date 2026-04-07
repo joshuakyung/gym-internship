@@ -1,0 +1,62 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <clipPath id="gc">
+    <circle cx="850" cy="315" r="265"/>
+  </clipPath>
+</defs>
+
+<rect x="0" y="0" width="1200" height="630" fill="#053d2a"/>
+
+<circle cx="850" cy="315" r="265" fill="#0b6644"/>
+
+<g clip-path="url(#gc)" stroke="#1aad74" stroke-width="0.9" fill="none" opacity="0.35">
+  <line x1="585" y1="315" x2="1115" y2="315"/>
+  <line x1="585" y1="223" x2="1115" y2="223"/>
+  <line x1="585" y1="132" x2="1115" y2="132"/>
+  <line x1="585" y1="407" x2="1115" y2="407"/>
+  <line x1="585" y1="498" x2="1115" y2="498"/>
+  <line x1="850" y1="50"  x2="850" y2="580"/>
+  <line x1="806" y1="50"  x2="806" y2="580"/>
+  <line x1="762" y1="50"  x2="762" y2="580"/>
+  <line x1="718" y1="50"  x2="718" y2="580"/>
+  <line x1="674" y1="50"  x2="674" y2="580"/>
+  <line x1="630" y1="50"  x2="630" y2="580"/>
+  <line x1="894" y1="50"  x2="894" y2="580"/>
+  <line x1="938" y1="50"  x2="938" y2="580"/>
+  <line x1="982" y1="50"  x2="982" y2="580"/>
+  <line x1="1026" y1="50" x2="1026" y2="580"/>
+  <line x1="1070" y1="50" x2="1070" y2="580"/>
+</g>
+
+<g clip-path="url(#gc)" fill="#1fbe7a" fill-opacity="0.82" stroke="#5df0b0" stroke-width="1" stroke-opacity="0.5">
+  <polygon points="597,124 634,108 668,101 757,171 769,171 727,239 712,265 669,248 658,168 597,124"/>
+  <polygon points="727,290 796,300 796,345 766,415 746,483 736,453 727,315 727,290"/>
+  <polygon points="770,133 815,133 803,74 781,67 757,78 770,133"/>
+  <polygon points="835,202 835,145 880,103 893,106 894,133 907,188 884,205 835,202"/>
+  <polygon points="841,202 862,202 903,221 928,278 928,300 904,354 886,421 838,421 818,354 811,269 841,202"/>
+  <polygon points="886,193 894,133 893,106 972,92 1079,101 1104,142 1100,159 1059,209 1020,310 1007,311 972,291 961,214 928,278 906,249 886,193"/>
+  <polygon points="906,249 928,278 928,278 920,262 906,249"/>
+  <polygon points="1023,382 1048,353 1077,364 1080,430 1055,421 1023,421 1023,382"/>
+  <polygon points="982,329 1002,318 1014,332 997,347 982,329"/>
+</g>
+
+<circle cx="850" cy="315" r="265" fill="none" stroke="#5df0b0" stroke-width="1.5" opacity="0.4"/>
+
+<circle cx="1044" cy="202" r="6" fill="#fff" opacity="0.9"/>
+<circle cx="1044" cy="202" r="11" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
+
+<rect x="70" y="110" width="5" height="50" rx="2.5" fill="#1aad74" opacity="0.6"/>
+<rect x="70" y="110" width="42" height="5" rx="2.5" fill="#1aad74" opacity="0.6"/>
+
+<text x="126" y="146" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="20" fill="#5df0b0" font-weight="600" letter-spacing="0.14em" opacity="0.9">GP MISSION</text>
+
+<text x="70" y="285" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="82" fill="#ffffff" font-weight="700" letter-spacing="-0.02em">당신의 인생 2막,</text>
+<text x="70" y="380" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="82" fill="#5df0b0" font-weight="700" letter-spacing="-0.02em">선교지에서</text>
+<text x="70" y="468" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="82" fill="#ffffff" font-weight="700" letter-spacing="-0.02em">시작됩니다</text>
+
+<text x="70" y="528" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="26" fill="#ffffff" fill-opacity="0.6" font-weight="400">장기 선교사가 아니어도 됩니다 · 44개국 현장과 연결됩니다</text>
+
+<rect x="70" y="558" width="234" height="50" rx="25" fill="#1aad74"/>
+<text x="187" y="589" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="21" fill="#ffffff" font-weight="700" text-anchor="middle" letter-spacing="0.04em">참여 방법 알아보기</text>
+
+</svg>
