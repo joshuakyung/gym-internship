@@ -1,907 +1,520 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>GP 선교회 | 선교 참여 안내</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            font-size: 16px;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "맑은 고딕", sans-serif;
-            background: #f5f5f0;
-            color: #1a1a1a;
-            line-height: 1.7;
-        }
-
-        .page {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-        }
-
-        /* ── HERO ── */
-        .hero {
-            background: linear-gradient(160deg, #064e35 0%, #0a7a52 60%, #1aad74 100%);
-            padding: 2.5rem 1.5rem 2rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-logo {
-            margin-bottom: 1.1rem;
-        }
-
-        .hero-logo img {
-            height: 38px;
-            filter: brightness(0) invert(1);
-        }
-
-        .hero-tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: #d4f7ea;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            padding: 4px 14px;
-            border-radius: 20px;
-            margin-bottom: 1rem;
-        }
-
-        .hero h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.45;
-            margin-bottom: 0.85rem;
-        }
-
-        .hero p {
-            font-size: 13.5px;
-            color: rgba(255, 255, 255, 0.82);
-            line-height: 1.8;
-        }
-
-        /* ── SECTION ── */
-        .section {
-            padding: 1.75rem 1.25rem;
-            border-bottom: 1px solid #f0ede8;
-        }
-
-        .section:last-of-type {
-            border-bottom: none;
-        }
-
-        .sec-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: #0a7a52;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 0.4rem;
-        }
-
-        .sec-title {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-            line-height: 1.4;
-        }
-
-        .sec-body {
-            font-size: 13.5px;
-            color: #444;
-            line-height: 1.85;
-        }
-
-        /* ── QUOTE ── */
-        .quote {
-            background: #ecf9f3;
-            border-left: 3px solid #1aad74;
-            border-radius: 0 8px 8px 0;
-            padding: 0.9rem 1.1rem;
-            margin: 1rem 0;
-        }
-
-        .quote p {
-            font-size: 14px;
-            color: #064e35;
-            font-weight: 600;
-            line-height: 1.75;
-        }
-
-        /* ── STAT ROW ── */
-        .stat-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin: 1rem 0;
-        }
-
-        .stat {
-            flex: 1;
-            min-width: 80px;
-            text-align: center;
-            background: #f7faf8;
-            border: 1px solid #d4ede3;
-            border-radius: 10px;
-            padding: 0.65rem 0.5rem;
-        }
-
-        .stat .num {
-            font-size: 20px;
-            font-weight: 700;
-            color: #0a7a52;
-        }
-
-        .stat .lbl {
-            font-size: 10px;
-            color: #777;
-            margin-top: 2px;
-        }
-
-        /* ── STEP LIST ── */
-        .step-list {
-            margin: 1rem 0;
-        }
-
-        .step {
-            display: flex;
-            gap: 12px;
-            padding: 0.85rem 0;
-            border-bottom: 1px solid #f0ede8;
-            align-items: flex-start;
-        }
-
-        .step:last-child {
-            border-bottom: none;
-        }
-
-        .step-icon {
-            min-width: 32px;
-            height: 32px;
-            background: #ecf9f3;
-            color: #0a7a52;
-            border-radius: 50%;
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 1px;
-        }
-
-        .step h3 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .step p {
-            font-size: 13px;
-            color: #555;
-            line-height: 1.75;
-        }
-
-        .step .tag {
-            display: inline-block;
-            font-size: 11px;
-            color: #0a7a52;
-            background: #ecf9f3;
-            border-radius: 12px;
-            padding: 2px 10px;
-            margin-top: 5px;
-            font-weight: 600;
-        }
-
-        /* ── CARD GRID ── */
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 1rem 0;
-        }
-
-        .card {
-            background: #f9f9f7;
-            border: 1px solid #e8e8e3;
-            border-radius: 10px;
-            padding: 0.9rem;
-        }
-
-        .card h3 {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .card p {
-            font-size: 12px;
-            color: #555;
-            line-height: 1.7;
-        }
-
-        /* ── COMPARE TABLE ── */
-        .compare-wrap {
-            overflow-x: auto;
-            margin: 1rem 0;
-            border-radius: 10px;
-            border: 1px solid #e0e0d8;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12.5px;
-        }
-
-        thead th {
-            background: #064e35;
-            color: #fff;
-            padding: 0.6rem 0.75rem;
-            text-align: left;
-            font-weight: 700;
-            font-size: 12px;
-        }
-
-        thead th:first-child {
-            border-radius: 9px 0 0 0;
-        }
-
-        thead th:last-child {
-            border-radius: 0 9px 0 0;
-        }
-
-        tbody td {
-            padding: 0.65rem 0.75rem;
-            border-bottom: 1px solid #f0ede8;
-            vertical-align: top;
-            line-height: 1.6;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        tbody td:first-child {
-            font-weight: 700;
-            background: #f9f9f7;
-            width: 28%;
-        }
-
-        .green {
-            color: #0a7a52;
-            font-weight: 700;
-        }
-
-        /* ── PROCESS STEPS ── */
-        .process {
-            margin: 1rem 0;
-        }
-
-        .proc-item {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 0;
-        }
-
-        .proc-left {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .proc-num {
-            width: 30px;
-            height: 30px;
-            min-width: 30px;
-            background: #064e35;
-            color: #fff;
-            border-radius: 50%;
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .proc-line {
-            width: 2px;
-            flex: 1;
-            background: #d4ede3;
-            margin: 4px auto;
-            min-height: 20px;
-        }
-
-        .proc-item:last-child .proc-line {
-            display: none;
-        }
-
-        .proc-body {
-            flex: 1;
-            padding-bottom: 1.1rem;
-        }
-
-        .proc-body h3 {
-            font-size: 13.5px;
-            font-weight: 700;
-            margin-bottom: 3px;
-            margin-top: 4px;
-        }
-
-        .proc-body p {
-            font-size: 12.5px;
-            color: #555;
-            line-height: 1.75;
-        }
-
-        .proc-body .hint {
-            font-size: 11.5px;
-            color: #0a7a52;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
-        /* ── BADGES ── */
-        .badge-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
-        }
-
-        .badge {
-            font-size: 11px;
-            padding: 3px 10px;
-            border-radius: 14px;
-            background: #ecf9f3;
-            color: #064e35;
-            font-weight: 600;
-            border: 1px solid #9FE1CB;
-        }
-
-        /* ── GP BOX ── */
-        .gp-box {
-            border: 1.5px solid #1aad74;
-            border-radius: 12px;
-            padding: 1.1rem 1.25rem;
-            margin: 1rem 0;
-            background: #fcfffe;
-        }
-
-        .gp-box h3 {
-            font-size: 14px;
-            font-weight: 700;
-            color: #064e35;
-            margin-bottom: 0.65rem;
-        }
-
-        .gp-box ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .gp-box ul li {
-            font-size: 13px;
-            color: #444;
-            padding: 0.3rem 0 0.3rem 1.1rem;
-            position: relative;
-            border-bottom: 1px solid #f0ede8;
-            line-height: 1.6;
-        }
-
-        .gp-box ul li:last-child {
-            border-bottom: none;
-        }
-
-        .gp-box ul li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #1aad74;
-            font-weight: 700;
-        }
-
-        /* ── HIGHLIGHT ── */
-        .highlight {
-            background: #ecf9f3;
-            border-left: 3px solid #1aad74;
-            border-radius: 0 8px 8px 0;
-            padding: 0.85rem 1rem;
-            margin: 1rem 0;
-        }
-
-        .highlight p {
-            font-size: 13px;
-            color: #064e35;
-            line-height: 1.8;
-        }
-
-        /* ── DASHBOARD LINK ── */
-        .dash-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #064e35;
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            margin: 1rem 0;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .dash-link-icon {
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .dash-link-body .title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .dash-link-body .sub {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.75);
-        }
-
-        .dash-link-arrow {
-            margin-left: auto;
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* ── CONTACT ── */
-        .contact-box {
-            background: #f9f9f7;
-            border: 1px solid #e8e8e3;
-            border-radius: 12px;
-            padding: 1.1rem 1.25rem;
-            margin: 1rem 0;
-        }
-
-        .contact-box h3 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-
-        .contact-row {
-            display: flex;
-            gap: 8px;
-            font-size: 12.5px;
-            padding: 0.3rem 0;
-        }
-
-        .clbl {
-            min-width: 52px;
-            color: #888;
-            font-weight: 600;
-        }
-
-        .cval {
-            color: #1a1a1a;
-            flex: 1;
-            word-break: break-all;
-        }
-
-        .cval a {
-            color: #0a7a52;
-            text-decoration: none;
-        }
-
-        /* ── MISSION STATEMENT ── */
-        .mission-box {
-            background: linear-gradient(160deg, #064e35 0%, #0a7a52 100%);
-            padding: 1.75rem 1.5rem;
-            text-align: center;
-        }
-
-        .mission-box .mission-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-        }
-
-        .mission-box .mission-text {
-            font-size: 14.5px;
-            color: #fff;
-            line-height: 2;
-            font-weight: 600;
-        }
-
-        .mission-box .mission-logo {
-            margin-top: 1.25rem;
-        }
-
-        .mission-box .mission-logo img {
-            height: 30px;
-            filter: brightness(0) invert(1);
-            opacity: 0.85;
-        }
-
-        /* ── FOOTER ── */
-        .footer {
-            text-align: center;
-            padding: 1rem 1.25rem;
-            font-size: 11px;
-            color: #aaa;
-            background: #1a1a1a;
-            color: #888;
-        }
-
-        /* ── FAQ ── */
-        .faq {
-            margin: 1rem 0;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid #f0ede8;
-            padding: 0.85rem 0;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-q {
-            font-size: 13.5px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #222;
-        }
-
-        .faq-q::before {
-            content: "Q. ";
-            color: #0a7a52;
-        }
-
-        .faq-a {
-            font-size: 13px;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        /* ── TABS ── */
-        .tabs {
-            display: flex;
-            overflow-x: auto;
-            border-bottom: 2px solid #f0ede8;
-            background: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab {
-            flex: 0 0 auto;
-            padding: 0.75rem 1rem;
-            font-size: 13px;
-            font-weight: 600;
-            color: #888;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .tab.active {
-            color: #0a7a52;
-            border-bottom-color: #0a7a52;
-        }
-
-        .tab-panel {
-            display: none;
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
-
-        .tab-content {
-            padding: 1.25rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GP 선교회 | 선교 참여 안내</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "맑은 고딕", sans-serif;
+    background: #f5f5f0;
+    color: #1a1a1a;
+    line-height: 1.7;
+  }
+
+  .page { max-width: 600px; margin: 0 auto; background: #fff; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #064e35 0%, #0a7a52 60%, #1aad74 100%);
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+  .hero-logo { margin-bottom: 1.1rem; }
+  .hero-logo img { height: 38px; filter: brightness(0) invert(1); }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: #d4f7ea;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.45;
+    margin-bottom: 0.85rem;
+  }
+  .hero p {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.8;
+  }
+
+  /* ── SECTION ── */
+  .section { padding: 1.75rem 1.25rem; border-bottom: 1px solid #f0ede8; }
+  .section:last-of-type { border-bottom: none; }
+  .sec-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #0a7a52;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .sec-title { font-size: 17px; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.4; }
+  .sec-body { font-size: 13.5px; color: #444; line-height: 1.85; }
+
+  /* ── QUOTE ── */
+  .quote {
+    background: #ecf9f3;
+    border-left: 3px solid #1aad74;
+    border-radius: 0 8px 8px 0;
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+  }
+  .quote p { font-size: 14px; color: #064e35; font-weight: 600; line-height: 1.75; }
+
+  /* ── STAT ROW ── */
+  .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0; }
+  .stat {
+    flex: 1; min-width: 80px; text-align: center;
+    background: #f7faf8;
+    border: 1px solid #d4ede3;
+    border-radius: 10px;
+    padding: 0.65rem 0.5rem;
+  }
+  .stat .num { font-size: 20px; font-weight: 700; color: #0a7a52; }
+  .stat .lbl { font-size: 10px; color: #777; margin-top: 2px; }
+
+  /* ── STEP LIST ── */
+  .step-list { margin: 1rem 0; }
+  .step { display: flex; gap: 12px; padding: 0.85rem 0; border-bottom: 1px solid #f0ede8; align-items: flex-start; }
+  .step:last-child { border-bottom: none; }
+  .step-icon {
+    min-width: 32px; height: 32px;
+    background: #ecf9f3; color: #0a7a52;
+    border-radius: 50%;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .step h3 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .step p { font-size: 13px; color: #555; line-height: 1.75; }
+  .step .tag {
+    display: inline-block; font-size: 11px; color: #0a7a52;
+    background: #ecf9f3; border-radius: 12px;
+    padding: 2px 10px; margin-top: 5px; font-weight: 600;
+  }
+
+  /* ── CARD GRID ── */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 1rem 0; }
+  .card {
+    background: #f9f9f7;
+    border: 1px solid #e8e8e3;
+    border-radius: 10px;
+    padding: 0.9rem;
+  }
+  .card h3 { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+  .card p { font-size: 12px; color: #555; line-height: 1.7; }
+
+  /* ── COMPARE TABLE ── */
+  .compare-wrap { overflow-x: auto; margin: 1rem 0; border-radius: 10px; border: 1px solid #e0e0d8; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead th {
+    background: #064e35; color: #fff;
+    padding: 0.6rem 0.75rem; text-align: left;
+    font-weight: 700; font-size: 12px;
+  }
+  thead th:first-child { border-radius: 9px 0 0 0; }
+  thead th:last-child { border-radius: 0 9px 0 0; }
+  tbody td { padding: 0.65rem 0.75rem; border-bottom: 1px solid #f0ede8; vertical-align: top; line-height: 1.6; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td:first-child { font-weight: 700; background: #f9f9f7; width: 28%; }
+  .green { color: #0a7a52; font-weight: 700; }
+
+  /* ── PROCESS STEPS ── */
+  .process { margin: 1rem 0; }
+  .proc-item { display: flex; gap: 12px; margin-bottom: 0; }
+  .proc-left { display: flex; flex-direction: column; align-items: center; }
+  .proc-num {
+    width: 30px; height: 30px; min-width: 30px;
+    background: #064e35; color: #fff;
+    border-radius: 50%; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .proc-line { width: 2px; flex: 1; background: #d4ede3; margin: 4px auto; min-height: 20px; }
+  .proc-item:last-child .proc-line { display: none; }
+  .proc-body { flex: 1; padding-bottom: 1.1rem; }
+  .proc-body h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; margin-top: 4px; }
+  .proc-body p { font-size: 12.5px; color: #555; line-height: 1.75; }
+  .proc-body .hint { font-size: 11.5px; color: #0a7a52; font-weight: 600; margin-top: 4px; }
+
+  /* ── BADGES ── */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .badge {
+    font-size: 11px; padding: 3px 10px;
+    border-radius: 14px;
+    background: #ecf9f3; color: #064e35; font-weight: 600;
+    border: 1px solid #9FE1CB;
+  }
+
+  /* ── GP BOX ── */
+  .gp-box {
+    border: 1.5px solid #1aad74;
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0;
+    background: #fcfffe;
+  }
+  .gp-box h3 { font-size: 14px; font-weight: 700; color: #064e35; margin-bottom: 0.65rem; }
+  .gp-box ul { list-style: none; padding: 0; }
+  .gp-box ul li {
+    font-size: 13px; color: #444;
+    padding: 0.3rem 0 0.3rem 1.1rem;
+    position: relative;
+    border-bottom: 1px solid #f0ede8;
+    line-height: 1.6;
+  }
+  .gp-box ul li:last-child { border-bottom: none; }
+  .gp-box ul li::before { content: "✓"; position: absolute; left: 0; color: #1aad74; font-weight: 700; }
+
+  /* ── HIGHLIGHT ── */
+  .highlight {
+    background: #ecf9f3; border-left: 3px solid #1aad74;
+    border-radius: 0 8px 8px 0; padding: 0.85rem 1rem;
+    margin: 1rem 0;
+  }
+  .highlight p { font-size: 13px; color: #064e35; line-height: 1.8; }
+
+  /* ── DASHBOARD LINK ── */
+  .dash-link {
+    display: flex; align-items: center; gap: 12px;
+    background: #064e35;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    text-decoration: none;
+    color: #fff;
+  }
+  .dash-link-icon {
+    width: 40px; height: 40px; min-width: 40px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .dash-link-body .title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .dash-link-body .sub { font-size: 12px; color: rgba(255,255,255,0.75); }
+  .dash-link-arrow { margin-left: auto; font-size: 18px; color: rgba(255,255,255,0.6); }
+
+  /* ── CONTACT ── */
+  .contact-box {
+    background: #f9f9f7;
+    border: 1px solid #e8e8e3;
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0;
+  }
+  .contact-box h3 { font-size: 14px; font-weight: 700; margin-bottom: 0.75rem; }
+  .contact-row { display: flex; gap: 8px; font-size: 12.5px; padding: 0.3rem 0; }
+  .clbl { min-width: 52px; color: #888; font-weight: 600; }
+  .cval { color: #1a1a1a; flex: 1; word-break: break-all; }
+  .cval a { color: #0a7a52; text-decoration: none; }
+
+  /* ── MISSION STATEMENT ── */
+  .mission-box {
+    background: linear-gradient(160deg, #064e35 0%, #0a7a52 100%);
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+  }
+  .mission-box .mission-label {
+    font-size: 10px; font-weight: 700;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .mission-box .mission-text {
+    font-size: 14.5px;
+    color: #fff;
+    line-height: 2;
+    font-weight: 600;
+  }
+  .mission-box .mission-logo { margin-top: 1.25rem; }
+  .mission-box .mission-logo img { height: 30px; filter: brightness(0) invert(1); opacity: 0.85; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 1rem 1.25rem;
+    font-size: 11px;
+    color: #aaa;
+    background: #1a1a1a;
+    color: #888;
+  }
+
+  /* ── FAQ ── */
+  .faq { margin: 1rem 0; }
+  .faq-item { border-bottom: 1px solid #f0ede8; padding: 0.85rem 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; color: #222; }
+  .faq-q::before { content: "Q. "; color: #0a7a52; }
+  .faq-a { font-size: 13px; color: #555; line-height: 1.8; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; overflow-x: auto; border-bottom: 2px solid #f0ede8; background: #fff; position: sticky; top: 0; z-index: 10; -webkit-overflow-scrolling: touch; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 0 0 auto; padding: 0.75rem 1rem;
+    font-size: 13px; font-weight: 600; color: #888;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+    cursor: pointer; white-space: nowrap;
+  }
+  .tab.active { color: #0a7a52; border-bottom-color: #0a7a52; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .tab-content { padding: 1.25rem; }
+</style>
 </head>
-
 <body>
-    <div class="page">
+<div class="page">
 
-        <!-- HERO -->
-        <div class="hero">
-            <div class="hero-logo">
-                <img src="data:image/jpeg;base64,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"
-                    alt="Global Partners Logo">
-            </div>
-            <div class="hero-tag">선교 참여 안내 · GP 선교회</div>
-            <h1>당신의 인생 2막,<br>선교지에서 시작할 수 있습니다</h1>
-            <p>장기 선교사가 아니어도 됩니다. 젊지 않아도 됩니다.<br>살아온 날들이 많을수록, 줄 수 있는 것도 더 깊어집니다.</p>
-        </div>
-
-        <!-- QUESTION HOOK -->
-        <div class="section">
-            <div class="sec-label">먼저, 이 질문부터</div>
-            <div class="sec-title">혹시 이런 생각 해보신 적 있으신가요?</div>
-
-            <div class="step-list">
-                <div class="step">
-                    <div class="step-icon">?</div>
-                    <div>
-                        <h3>"은퇴 후에 신앙적으로 의미 있는 일을 하고 싶은데…"</h3>
-                        <p>봉사나 헌금 외에, 내가 직접 몸으로 참여할 수 있는 일이 있을까 생각해 보셨다면, 이미 선교로 부름받고 있는 중입니다.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">?</div>
-                    <div>
-                        <h3>"단기 선교는 참여했는데… 뭔가 아쉬웠어요."</h3>
-                        <p>짧은 방문과 프로젝트 중심의 사역은 현지와의 깊은 연결을 만들기 어렵습니다. 그 '아쉬움'이 더 나은 선교를 향한 출발점입니다.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">?</div>
-                    <div>
-                        <h3>"해외에서 한달쯤 살아보고 싶다는 꿈이 있어요."</h3>
-                        <p>그 꿈이 선교와 연결될 수 있습니다. 현지 언어, 문화, 사람들과 함께하는 시간이 곧 선교입니다.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PARADIGM -->
-        <div class="section" style="background:#f7fbf9;">
-            <div class="sec-label">선교가 바뀌고 있습니다</div>
-            <div class="sec-title">선교의 패러다임이 달라지고 있습니다</div>
-            <div class="sec-body">오늘의 선교는 '해주는 것(Doing For)'에서 <strong>'함께 있는 것(Being With)'</strong>으로 전환 중입니다. 더 이상 전문
-                선교사만의 영역이 아닙니다. 다양한 지역, 형태, 기간으로 문이 열려 있습니다.</div>
-
-            <div class="stat-row">
-                <div class="stat">
-                    <div class="num">44</div>
-                    <div class="lbl">GP 사역 국가</div>
-                </div>
-                <div class="stat">
-                    <div class="num">228</div>
-                    <div class="lbl">현장 사역팀</div>
-                </div>
-                <div class="stat">
-                    <div class="num">404</div>
-                    <div class="lbl">파송 선교사</div>
-                </div>
-                <div class="stat">
-                    <div class="num">55+</div>
-                    <div class="lbl">실버선교사 연령</div>
-                </div>
-            </div>
-
-            <div class="quote">
-                <p>"선교는 방문자로서 무언가를 '해주는' 것이 아닙니다.<br>그 땅의 사람들 곁에 '함께 있어주는 것'입니다."</p>
-            </div>
-        </div>
-
-        <!-- PARTICIPATION PATHS -->
-        <div class="section">
-            <div class="sec-label">나에게 맞는 방법이 있습니다</div>
-            <div class="sec-title">참여의 문은 다양하게 열려 있습니다</div>
-
-            <div class="step-list">
-                <div class="step">
-                    <div class="step-icon">1</div>
-                    <div>
-                        <h3>단기 선교 — 첫걸음</h3>
-                        <p>교회나 단체의 단기 선교에 참여하는 것은 좋은 출발입니다. 같은 곳을 반복 방문하며 관계를 쌓아가는 것이 핵심입니다.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">2</div>
-                    <div>
-                        <h3>한달 살기 — 진짜 연결의 시작</h3>
-                        <p>시장을 걷고, 언어를 배우고, 이웃의 얼굴을 기억하는 것. 이것이 진정한 '함께 있음'의 시작입니다. GP 선교사들과 연결되어 준비할 수 있습니다.</p>
-                        <div class="badge-row">
-                            <span class="badge">현지 문화 체험</span>
-                            <span class="badge">언어 기초 습득</span>
-                            <span class="badge">선교사 가정 지원</span>
-                            <span class="badge">교회-현지 다리 역할</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">3</div>
-                    <div>
-                        <h3>교회 안 선교 행정·지원 체계 구축</h3>
-                        <p>현장에 나가지 않아도 됩니다. 교회 안에서 선교사 기도·후원 네트워크를 조직하고 관리하는 일도 귀한 사역입니다.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">4</div>
-                    <div>
-                        <h3>GP 선교회와의 공식 협력</h3>
-                        <p>더 깊이 헌신하기 원하신다면 단기선교사 또는 실버선교사 제도를 통해 공식 파송받는 방법이 있습니다.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- GP FORMAL PROGRAM -->
-        <div class="section" style="background:#f7fbf9;">
-            <div class="sec-label">GP 선교회 공식 파송 제도</div>
-            <div class="sec-title">GP 선교회와 함께하는 구체적 길</div>
-            <div class="sec-body" style="margin-bottom:1rem;">GP 선교회(Global Partners)는 44개국에 선교사를 파송하는 초교파 선교단체입니다. 장기
-                선교사 외에도 두 가지 '준회원' 제도를 통해 참여하실 수 있습니다.</div>
-
-            <div class="card-grid">
-                <div class="card" style="border-top: 3px solid #064e35;">
-                    <h3>&#127774; 단기선교사</h3>
-                    <p style="font-size:11.5px; color:#0a7a52; font-weight:700; margin-bottom:6px;">연령 제한 없음</p>
-                    <p>사역 기간: 1년 이상, 최장 4년<br>지역 리더 지도 하에 사역<br>연례 지역 회의 참석</p>
-                </div>
-                <div class="card" style="border-top: 3px solid #1aad74;">
-                    <h3>&#127775; 실버선교사</h3>
-                    <p style="font-size:11.5px; color:#0a7a52; font-weight:700; margin-bottom:6px;">만 55세 이상</p>
-                    <p>임기: 4년 (연장 가능)<br>전문 분야 경력자 우선<br>지역 리더 지도 하에 사역</p>
-                </div>
-            </div>
-
-            <div class="highlight">
-                <p>두 제도 모두 준회원 자격으로, 기존 GP 선교사 팀과 협력하여 '함께 있어주는 동반자'로 사역합니다. 전문 기술(의료, 교육, 건축, 음악, 요리 등)이 있다면 더욱 귀하게
-                    쓰임받을 수 있습니다.</p>
-            </div>
-        </div>
-
-        <!-- BEING WITH -->
-        <div class="section">
-            <div class="sec-label">삶으로 드리는 선교</div>
-            <div class="sec-title">"Being With" — 함께 있어주는 것의 힘</div>
-
-            <div class="card-grid">
-                <div class="card">
-                    <h3>방문이 아닌 관계</h3>
-                    <p>지속적으로 연락하고 기도하고 돌아가는 관계. 이것이 진짜 선교의 열매입니다.</p>
-                </div>
-                <div class="card">
-                    <h3>프로젝트보다 사람</h3>
-                    <p>현지인의 이름을 알고 그 삶에 함께 머무는 것이 더 큰 복음입니다.</p>
-                </div>
-                <div class="card">
-                    <h3>경험이 자산입니다</h3>
-                    <p>수십 년의 삶 경험과 지혜. 이것이 50대 이후 성도만이 줄 수 있는 선교의 자원입니다.</p>
-                </div>
-                <div class="card">
-                    <h3>기도와 후원의 동역</h3>
-                    <p>구체적인 선교사 가정을 알고 기도하며 소통하는 것 자체가 사역입니다.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- DASHBOARD LINK -->
-        <div class="section">
-            <div class="sec-label">GP 선교 현황</div>
-            <div class="sec-title">Global Partners 선교회의 선교 현황에 대해 알아보기</div>
-            <div class="sec-body" style="margin-bottom:1rem;">GP 선교회가 현재 어디에서 어떻게 사역하고 있는지 대시보드를 통해 확인해 보세요.</div>
-
-            <a href="https://m.site.naver.com/21oAU" class="dash-link" target="_blank">
-                <div class="dash-link-icon">&#128202;</div>
-                <div class="dash-link-body">
-                    <div class="title">GP 2025 선교 현황 대시보드</div>
-                    <div class="sub">사역지 · 선교사 현황 · 분야별 통계 보기</div>
-                </div>
-                <div class="dash-link-arrow">&#8599;</div>
-            </a>
-        </div>
-
-        <!-- CTA STEPS -->
-        <div class="section" style="background:#f7fbf9;">
-            <div class="sec-label">오늘 바로 시작할 수 있는 것들</div>
-            <div class="sec-title">작은 발걸음이 새로운 문을 엽니다</div>
-
-            <div class="process">
-                <div class="proc-item">
-                    <div class="proc-left">
-                        <div class="proc-num">→</div>
-                        <div class="proc-line"></div>
-                    </div>
-                    <div class="proc-body">
-                        <h3>GP 선교사 한 가정과 1:1 기도 파트너 되기</h3>
-                        <p>선교사 가정의 기도제목을 매달 받고, 편지나 메시지로 소통하는 것부터 시작하세요.</p>
-                    </div>
-                </div>
-                <div class="proc-item">
-                    <div class="proc-left">
-                        <div class="proc-num">→</div>
-                        <div class="proc-line"></div>
-                    </div>
-                    <div class="proc-body">
-                        <h3>선교지 '한달 살기' 준비 문의</h3>
-                        <p>GP 선교회와 연계하는 선교지 방문 및 단기 체류 프로그램에 대해 본부에 문의하세요.</p>
-                    </div>
-                </div>
-                <div class="proc-item">
-                    <div class="proc-left">
-                        <div class="proc-num">→</div>
-                        <div class="proc-line"></div>
-                    </div>
-                    <div class="proc-body">
-                        <h3>실버·단기선교사 제도 상담 신청</h3>
-                        <p>55세 이상이시라면 실버선교사 제도에 대해 GP 선교회 한국본부에 직접 상담을 요청하실 수 있습니다.</p>
-                    </div>
-                </div>
-                <div class="proc-item">
-                    <div class="proc-left">
-                        <div class="proc-num">→</div>
-                    </div>
-                    <div class="proc-body">
-                        <h3>교회 선교위원회 또는 선교 소그룹 참여</h3>
-                        <p>교회 안에서 선교 기도 모임, 선교사 자녀 지원 등에 참여하여 선교 생태계를 만들어 가세요.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CONTACT -->
-        <div class="section">
-            <div class="sec-label">문의 및 상담</div>
-            <div class="sec-title">GP 선교회 한국본부</div>
-
-            <div class="contact-box">
-                <div class="contact-row"><span class="clbl">주소</span><span class="cval">138-200 서울시 송파구 문정1동 77-3<br>서울시
-                        송파구 새말로8길 17 (문정동)</span></div>
-                <div class="contact-row"><span class="clbl">전화</span><span class="cval"><a
-                            href="tel:02-443-0883">02-443-0883</a></span></div>
-                <div class="contact-row"><span class="clbl">팩스</span><span class="cval">02-443-0449</span></div>
-                <div class="contact-row"><span class="clbl">이메일</span><span class="cval"><a
-                            href="mailto:info@gpkorea.org">info@gpkorea.org</a></span></div>
-            </div>
-        </div>
-
-        <!-- MISSION STATEMENT -->
-        <div class="mission-box">
-            <div class="mission-label">GP Mission Statement · 사명선언문</div>
-            <div class="mission-text">
-                "마지막 시대의 선교를 이끄는 공동체로서,<br>
-                창의적 선교전략을 가지고, 서로 협력하여,<br>
-                현지 지도력을 개발함으로,<br>
-                지구촌을 신속하게 복음화 하여<br>
-                하나님께 영광을 돌리는 것"
-            </div>
-            <div class="mission-logo">
-                <img src="data:image/jpeg;base64,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"
-                    alt="Global Partners">
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <div class="footer">
-            Global Partners (지피선교회) · 초교파 선교단체 · 1999년 창립<br>
-            <a href="https://gpinternational.org" style="color:#6b9; text-decoration:none;">gpinternational.org</a>
-        </div>
-
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <img src="GP_logo_long%20(2).png" alt="Global Partners Logo">
     </div>
-</body>
+    <div class="hero-tag">선교 참여 안내 · GP 선교회</div>
+    <h1>당신의 인생 2막,<br>선교지에서 시작할 수 있습니다</h1>
+    <p>장기 선교사가 아니어도 됩니다. 젊지 않아도 됩니다.<br>살아온 날들이 많을수록, 줄 수 있는 것도 더 깊어집니다.</p>
+  </div>
 
+  <!-- QUESTION HOOK -->
+  <div class="section">
+    <div class="sec-label">먼저, 이 질문부터</div>
+    <div class="sec-title">혹시 이런 생각 해보신 적 있으신가요?</div>
+
+    <div class="step-list">
+      <div class="step">
+        <div class="step-icon">?</div>
+        <div>
+          <h3>"은퇴 후에 신앙적으로 의미 있는 일을 하고 싶은데…"</h3>
+          <p>봉사나 헌금 외에, 내가 직접 몸으로 참여할 수 있는 일이 있을까 생각해 보셨다면, 이미 선교로 부름받고 있는 중입니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">?</div>
+        <div>
+          <h3>"단기 선교는 참여했는데… 뭔가 아쉬웠어요."</h3>
+          <p>짧은 방문과 프로젝트 중심의 사역은 현지와의 깊은 연결을 만들기 어렵습니다. 그 '아쉬움'이 더 나은 선교를 향한 출발점입니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">?</div>
+        <div>
+          <h3>"해외에서 한달쯤 살아보고 싶다는 꿈이 있어요."</h3>
+          <p>그 꿈이 선교와 연결될 수 있습니다. 현지 언어, 문화, 사람들과 함께하는 시간이 곧 선교입니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARADIGM -->
+  <div class="section" style="background:#f7fbf9;">
+    <div class="sec-label">선교가 바뀌고 있습니다</div>
+    <div class="sec-title">선교의 패러다임이 달라지고 있습니다</div>
+    <div class="sec-body">오늘의 선교는 '해주는 것(Doing For)'에서 <strong>'함께 있는 것(Being With)'</strong>으로 전환 중입니다. 더 이상 전문 선교사만의 영역이 아닙니다. 다양한 지역, 형태, 기간으로 문이 열려 있습니다.</div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num">44</div><div class="lbl">GP 사역 국가</div></div>
+      <div class="stat"><div class="num">228</div><div class="lbl">현장 사역팀</div></div>
+      <div class="stat"><div class="num">404</div><div class="lbl">파송 선교사</div></div>
+      <div class="stat"><div class="num">55+</div><div class="lbl">실버선교사 연령</div></div>
+    </div>
+
+    <div class="quote">
+      <p>"선교는 방문자로서 무언가를 '해주는' 것이 아닙니다.<br>그 땅의 사람들 곁에 '함께 있어주는 것'입니다."</p>
+    </div>
+  </div>
+
+  <!-- PARTICIPATION PATHS -->
+  <div class="section">
+    <div class="sec-label">나에게 맞는 방법이 있습니다</div>
+    <div class="sec-title">참여의 문은 다양하게 열려 있습니다</div>
+
+    <div class="step-list">
+      <div class="step">
+        <div class="step-icon">1</div>
+        <div>
+          <h3>단기 선교 — 첫걸음</h3>
+          <p>교회나 단체의 단기 선교에 참여하는 것은 좋은 출발입니다. 같은 곳을 반복 방문하며 관계를 쌓아가는 것이 핵심입니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">2</div>
+        <div>
+          <h3>한달 살기 — 진짜 연결의 시작</h3>
+          <p>시장을 걷고, 언어를 배우고, 이웃의 얼굴을 기억하는 것. 이것이 진정한 '함께 있음'의 시작입니다. GP 선교사들과 연결되어 준비할 수 있습니다.</p>
+          <div class="badge-row">
+            <span class="badge">현지 문화 체험</span>
+            <span class="badge">언어 기초 습득</span>
+            <span class="badge">선교사 가정 지원</span>
+            <span class="badge">교회-현지 다리 역할</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">3</div>
+        <div>
+          <h3>교회 안 선교 행정·지원 체계 구축</h3>
+          <p>현장에 나가지 않아도 됩니다. 교회 안에서 선교사 기도·후원 네트워크를 조직하고 관리하는 일도 귀한 사역입니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">4</div>
+        <div>
+          <h3>GP 선교회와의 공식 협력</h3>
+          <p>더 깊이 헌신하기 원하신다면 단기선교사 또는 실버선교사 제도를 통해 공식 파송받는 방법이 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GP FORMAL PROGRAM -->
+  <div class="section" style="background:#f7fbf9;">
+    <div class="sec-label">GP 선교회 공식 파송 제도</div>
+    <div class="sec-title">GP 선교회와 함께하는 구체적 길</div>
+    <div class="sec-body" style="margin-bottom:1rem;">GP 선교회(Global Partners)는 44개국에 선교사를 파송하는 초교파 선교단체입니다. 장기 선교사 외에도 두 가지 '준회원' 제도를 통해 참여하실 수 있습니다.</div>
+
+    <div class="card-grid">
+      <div class="card" style="border-top: 3px solid #064e35;">
+        <h3>&#127774; 단기선교사</h3>
+        <p style="font-size:11.5px; color:#0a7a52; font-weight:700; margin-bottom:6px;">연령 제한 없음</p>
+        <p>사역 기간: 1년 이상, 최장 4년<br>지역 리더 지도 하에 사역<br>연례 지역 회의 참석</p>
+      </div>
+      <div class="card" style="border-top: 3px solid #1aad74;">
+        <h3>&#127775; 실버선교사</h3>
+        <p style="font-size:11.5px; color:#0a7a52; font-weight:700; margin-bottom:6px;">만 55세 이상</p>
+        <p>임기: 4년 (연장 가능)<br>전문 분야 경력자 우선<br>지역 리더 지도 하에 사역</p>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p>두 제도 모두 준회원 자격으로, 기존 GP 선교사 팀과 협력하여 '함께 있어주는 동반자'로 사역합니다. 전문 기술(의료, 교육, 건축, 음악, 요리 등)이 있다면 더욱 귀하게 쓰임받을 수 있습니다.</p>
+    </div>
+  </div>
+
+  <!-- BEING WITH -->
+  <div class="section">
+    <div class="sec-label">삶으로 드리는 선교</div>
+    <div class="sec-title">"Being With" — 함께 있어주는 것의 힘</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>방문이 아닌 관계</h3>
+        <p>지속적으로 연락하고 기도하고 돌아가는 관계. 이것이 진짜 선교의 열매입니다.</p>
+      </div>
+      <div class="card">
+        <h3>프로젝트보다 사람</h3>
+        <p>현지인의 이름을 알고 그 삶에 함께 머무는 것이 더 큰 복음입니다.</p>
+      </div>
+      <div class="card">
+        <h3>경험이 자산입니다</h3>
+        <p>수십 년의 삶 경험과 지혜. 이것이 50대 이후 성도만이 줄 수 있는 선교의 자원입니다.</p>
+      </div>
+      <div class="card">
+        <h3>기도와 후원의 동역</h3>
+        <p>구체적인 선교사 가정을 알고 기도하며 소통하는 것 자체가 사역입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD LINK -->
+  <div class="section">
+    <div class="sec-label">GP 선교 현황</div>
+    <div class="sec-title">Global Partners 선교회의 선교 현황에 대해 알아보기</div>
+    <div class="sec-body" style="margin-bottom:1rem;">GP 선교회가 현재 어디에서 어떻게 사역하고 있는지 대시보드를 통해 확인해 보세요.</div>
+
+    <a href="https://m.site.naver.com/21oAU" class="dash-link" target="_blank">
+      <div class="dash-link-icon">&#128202;</div>
+      <div class="dash-link-body">
+        <div class="title">GP 2025 선교 현황 대시보드</div>
+        <div class="sub">사역지 · 선교사 현황 · 분야별 통계 보기</div>
+      </div>
+      <div class="dash-link-arrow">&#8599;</div>
+    </a>
+  </div>
+
+  <!-- CTA STEPS -->
+  <div class="section" style="background:#f7fbf9;">
+    <div class="sec-label">오늘 바로 시작할 수 있는 것들</div>
+    <div class="sec-title">작은 발걸음이 새로운 문을 엽니다</div>
+
+    <div class="process">
+      <div class="proc-item">
+        <div class="proc-left"><div class="proc-num">→</div><div class="proc-line"></div></div>
+        <div class="proc-body">
+          <h3>GP 선교사 한 가정과 1:1 기도 파트너 되기</h3>
+          <p>선교사 가정의 기도제목을 매달 받고, 편지나 메시지로 소통하는 것부터 시작하세요.</p>
+        </div>
+      </div>
+      <div class="proc-item">
+        <div class="proc-left"><div class="proc-num">→</div><div class="proc-line"></div></div>
+        <div class="proc-body">
+          <h3>선교지 '한달 살기' 준비 문의</h3>
+          <p>GP 선교회와 연계하는 선교지 방문 및 단기 체류 프로그램에 대해 본부에 문의하세요.</p>
+        </div>
+      </div>
+      <div class="proc-item">
+        <div class="proc-left"><div class="proc-num">→</div><div class="proc-line"></div></div>
+        <div class="proc-body">
+          <h3>실버·단기선교사 제도 상담 신청</h3>
+          <p>55세 이상이시라면 실버선교사 제도에 대해 GP 선교회 한국본부에 직접 상담을 요청하실 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="proc-item">
+        <div class="proc-left"><div class="proc-num">→</div></div>
+        <div class="proc-body">
+          <h3>교회 선교위원회 또는 선교 소그룹 참여</h3>
+          <p>교회 안에서 선교 기도 모임, 선교사 자녀 지원 등에 참여하여 선교 생태계를 만들어 가세요.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="section">
+    <div class="sec-label">문의 및 상담</div>
+    <div class="sec-title">GP 선교회 한국본부</div>
+
+    <div class="contact-box">
+      <div class="contact-row"><span class="clbl">주소</span><span class="cval">138-200 서울시 송파구 문정1동 77-3<br>서울시 송파구 새말로8길 17 (문정동)</span></div>
+      <div class="contact-row"><span class="clbl">전화</span><span class="cval"><a href="tel:02-443-0883">02-443-0883</a></span></div>
+      <div class="contact-row"><span class="clbl">팩스</span><span class="cval">02-443-0449</span></div>
+      <div class="contact-row"><span class="clbl">이메일</span><span class="cval"><a href="mailto:info@gpkorea.org">info@gpkorea.org</a></span></div>
+    </div>
+  </div>
+
+  <!-- MISSION STATEMENT -->
+  <div class="mission-box">
+    <div class="mission-label">GP Mission Statement · 사명선언문</div>
+    <div class="mission-text">
+      "마지막 시대의 선교를 이끄는 공동체로서,<br>
+      창의적 선교전략을 가지고, 서로 협력하여,<br>
+      현지 지도력을 개발함으로,<br>
+      지구촌을 신속하게 복음화 하여<br>
+      하나님께 영광을 돌리는 것"
+    </div>
+    <div class="mission-logo">
+      <img src="GP_logo_long%20(2).png" alt="Global Partners">
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Global Partners (지피선교회) · 초교파 선교단체 · 1999년 창립<br>
+    <a href="https://gpinternational.org" style="color:#6b9; text-decoration:none;">gpinternational.org</a>
+  </div>
+
+</div>
+</body>
 </html>
