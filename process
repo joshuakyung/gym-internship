@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GYM 프로그램 운영 워크플로우 — Global Youngman Move</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white:    #ffffff;
+    --bg:       #f5f5f7;
+    --bg-card:  #ffffff;
+    --text-1:   #1d1d1f;
+    --text-2:   #3a3a3c;
+    --text-3:   #6e6e73;
+    --border:   #e0e0e5;
+
+    /* Phase accent palette */
+    --c1: #0071e3;   /* 지원 — Apple blue */
+    --c2: #34c759;   /* 사전준비 — green */
+    --c3: #ff9f0a;   /* 국내교육 — amber */
+    --c4: #ff6961;   /* 해외인턴십 — coral */
+    --c5: #bf5af2;   /* 귀국·수료 — purple */
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,.06);
+    --shadow-md: 0 8px 32px rgba(0,0,0,.10);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-1);
+    line-height: 1.7;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Typography ── */
+  h1, h2, h3, h4 { letter-spacing: -0.02em; }
+  .label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--white);
+    padding: 80px 24px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%,
+      rgba(0,113,227,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,113,227,.08);
+    color: var(--c1);
+    font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 0.06em;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    color: var(--text-1);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .hero h1 span { color: var(--c1); }
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--text-3);
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+  .hero-meta {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;
+  }
+  .meta-pill {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-2);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .meta-pill .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--c1);
+    display: inline-block;
+  }
+
+  /* ── Notice Banner ── */
+  .notice {
+    max-width: 900px; margin: 32px auto 0;
+    background: linear-gradient(135deg, rgba(0,113,227,.06), rgba(0,113,227,.02));
+    border: 1px solid rgba(0,113,227,.18);
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13.5px; color: var(--c1); font-weight: 500;
+  }
+  .notice-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Nav Pills ── */
+  .phase-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,245,247,.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    overflow-x: auto;
+  }
+  .phase-nav ul {
+    display: flex; list-style: none;
+    gap: 0; max-width: 960px; margin: 0 auto;
+    min-width: max-content;
+  }
+  .phase-nav a {
+    display: block; padding: 14px 18px;
+    font-size: 13px; font-weight: 600;
+    color: var(--text-3);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  .phase-nav a:hover { color: var(--text-1); }
+  .phase-nav a.p1:hover, .phase-nav a.p1.active { color: var(--c1); border-color: var(--c1); }
+  .phase-nav a.p2:hover, .phase-nav a.p2.active { color: var(--c2); border-color: var(--c2); }
+  .phase-nav a.p3:hover, .phase-nav a.p3.active { color: var(--c3); border-color: var(--c3); }
+  .phase-nav a.p4:hover, .phase-nav a.p4.active { color: var(--c4); border-color: var(--c4); }
+  .phase-nav a.p5:hover, .phase-nav a.p5.active { color: var(--c5); border-color: var(--c5); }
+
+  /* ── Main Layout ── */
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── Phase Section ── */
+  .phase {
+    margin-bottom: 56px;
+    animation: fadeUp .5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-num {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 900;
+    color: white;
+  }
+  .phase-title-group { flex: 1; }
+  .phase-title {
+    font-size: 1.35rem; font-weight: 800;
+    line-height: 1.2;
+  }
+  .phase-desc {
+    font-size: 13px; color: var(--text-3);
+    margin-top: 2px; font-weight: 400;
+  }
+  .phase-tag {
+    font-size: 12px; font-weight: 700;
+    padding: 4px 12px; border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* Color sets per phase */
+  .ph1 .phase-num { background: var(--c1); }
+  .ph1 .phase-title { color: var(--c1); }
+  .ph1 .phase-tag { background: rgba(0,113,227,.1); color: var(--c1); }
+
+  .ph2 .phase-num { background: var(--c2); }
+  .ph2 .phase-title { color: var(--c2); }
+  .ph2 .phase-tag { background: rgba(52,199,89,.12); color: #248a3d; }
+
+  .ph3 .phase-num { background: var(--c3); }
+  .ph3 .phase-title { color: var(--c3); }
+  .ph3 .phase-tag { background: rgba(255,159,10,.12); color: #b36200; }
+
+  .ph4 .phase-num { background: var(--c4); }
+  .ph4 .phase-title { color: var(--c4); }
+  .ph4 .phase-tag { background: rgba(255,105,97,.12); color: #c0392b; }
+
+  .ph5 .phase-num { background: var(--c5); }
+  .ph5 .phase-title { color: var(--c5); }
+  .ph5 .phase-tag { background: rgba(191,90,242,.12); color: #8944ab; }
+
+  /* ── Step Cards ── */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+
+  .step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .step-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .step-card-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 20px 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .step-number {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 8px;
+    font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+  }
+  .step-card-title {
+    font-size: 15px; font-weight: 700;
+    flex: 1; color: var(--text-1);
+  }
+  .step-roles {
+    display: flex; gap: 5px; flex-wrap: wrap;
+  }
+  .role-badge {
+    font-size: 10.5px; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px;
+    letter-spacing: 0.03em;
+  }
+  .role-intern   { background: rgba(0,113,227,.10); color: var(--c1); }
+  .role-hq       { background: rgba(255,159,10,.12); color: #b36200; }
+  .role-field    { background: rgba(52,199,89,.12); color: #248a3d; }
+
+  .step-chevron {
+    font-size: 12px; color: var(--text-3);
+    transition: transform .25s;
+    flex-shrink: 0;
+  }
+  .step-card.open .step-chevron { transform: rotate(180deg); }
+
+  .step-card-body {
+    display: none;
+    padding: 0 20px 20px 62px;
+    border-top: 1px solid var(--border);
+    animation: slideDown .2s ease;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .step-card.open .step-card-body { display: block; }
+
+  .step-item {
+    margin-top: 14px;
+  }
+  .step-item-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-3); margin-bottom: 4px;
+  }
+  .step-item-val {
+    font-size: 14px; color: var(--text-2); line-height: 1.7;
+  }
+  .step-item ul {
+    padding-left: 18px; margin-top: 4px;
+  }
+  .step-item ul li { margin-bottom: 3px; font-size: 14px; color: var(--text-2); }
+
+  /* flexible note */
+  .flex-note {
+    display: flex; align-items: flex-start; gap: 7px;
+    background: rgba(255,159,10,.07);
+    border: 1px solid rgba(255,159,10,.22);
+    border-radius: 8px;
+    padding: 9px 13px;
+    font-size: 12.5px; color: #7d5000; font-weight: 500;
+    margin-top: 12px;
+  }
+  .flex-note-icon { flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Responsibility Matrix ── */
+  .matrix-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin-bottom: 48px;
+    box-shadow: var(--shadow-sm);
+  }
+  .matrix-title {
+    font-size: 1.15rem; font-weight: 800;
+    margin-bottom: 20px; color: var(--text-1);
+  }
+  .matrix-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table {
+    width: 100%; border-collapse: collapse;
+    min-width: 560px;
+    font-size: 13px;
+  }
+  thead th {
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-3);
+    border-bottom: 2px solid var(--border);
+  }
+  thead th:first-child { text-align: left; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  tbody td {
+    padding: 11px 14px;
+    color: var(--text-2);
+    vertical-align: middle;
+  }
+  tbody td:first-child { font-weight: 600; font-size: 13px; }
+  .cell-center { text-align: center; }
+  .dot-main { color: var(--c1); font-size: 18px; line-height: 1; }
+  .dot-sub  { color: var(--c3); font-size: 14px; line-height: 1; }
+  .dot-field { color: var(--c2); font-size: 18px; line-height: 1; }
+  .legend {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-top: 14px; font-size: 12px; color: var(--text-3);
+  }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+
+  /* ── Footer / Contact ── */
+  .footer {
+    background: var(--text-1);
+    color: rgba(255,255,255,.85);
+    padding: 48px 24px 40px;
+  }
+  .footer-inner {
+    max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 40px; align-items: start;
+  }
+  .footer-brand { }
+  .footer-logo {
+    font-size: 1.3rem; font-weight: 900;
+    color: white; letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .footer-logo span { color: var(--c1); }
+  .footer-tagline {
+    font-size: 13px; color: rgba(255,255,255,.5);
+    line-height: 1.6;
+  }
+  .footer-contact h4 {
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+    margin-bottom: 14px;
+  }
+  .contact-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .contact-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13.5px; color: rgba(255,255,255,.75);
+  }
+  .contact-list .ci { color: var(--c1); flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+  .contact-list a { color: rgba(255,255,255,.75); text-decoration: none; }
+  .contact-list a:hover { color: white; }
+  .footer-bottom {
+    max-width: 960px; margin: 32px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    font-size: 12px; color: rgba(255,255,255,.3);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px; background: var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── Section title ── */
+  .section-eyebrow {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-3); margin-bottom: 8px;
+  }
+  .section-heading {
+    font-size: 1.5rem; font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    font-size: 14px; color: var(--text-3); margin-bottom: 28px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .hero { padding: 60px 20px 48px; }
+    .hero h1 { font-size: 1.9rem; }
+    .phase-nav a { padding: 12px 12px; font-size: 12px; }
+    .main { padding: 32px 16px 60px; }
+    .matrix-section { padding: 20px 16px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .step-card-body { padding-left: 20px; }
+    .step-roles { display: none; }
+    .step-card-head { gap: 10px; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; font-size: 12px; }
+    .phase-nav, .step-chevron { display: none !important; }
+    .step-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .step-card-body { display: block !important; }
+    .hero { padding: 40px 0 32px; border-bottom: 2px solid #eee; }
+    .hero::before { display: none; }
+    .hero h1 { font-size: 28px; }
+    .phase { margin-bottom: 32px; }
+    .footer { background: #f0f0f0; color: #333; padding: 24px; }
+    .footer-logo, .contact-list li, .footer-tagline { color: #333 !important; }
+    .footer-contact h4 { color: #666 !important; }
+    .footer-bottom { color: #666 !important; border-color: #ddd !important; }
+    .contact-list a { color: #333 !important; }
+    .notice { border: 1px solid #aaa; }
+    a { color: inherit; }
+    @page { margin: 15mm 15mm; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════ HERO ════════════════════════════ -->
+<header class="hero">
+  <div class="hero-badge">📋 공식 운영 문서</div>
+  <h1><span>GYM</span> 프로그램<br>운영 워크플로우</h1>
+  <p class="hero-sub">Global Youngman Move — 선교와 전문성 개발의 만남</p>
+  <div class="hero-meta">
+    <div class="meta-pill"><span class="dot"></span> 총 5~6개월 과정</div>
+    <div class="meta-pill"><span class="dot" style="background:var(--c2)"></span> 인턴 · 본부 · 필드 협업</div>
+    <div class="meta-pill"><span class="dot" style="background:var(--c3)"></span> 국내 교육 + 해외 인턴십</div>
+  </div>
+
+  <div class="notice" style="margin: 28px auto 0; max-width: 680px;">
+    <span class="notice-icon">💡</span>
+    <span>본 워크플로우의 각 단계는 <strong>지원자와 필드의 상황에 따라 유동적으로 적용</strong>됩니다. 세부 일정 및 순서는 담당자 협의를 통해 조정될 수 있습니다.</span>
+  </div>
+</header>
+
+<!-- ════════════════════════════ STICKY NAV ════════════════════════════ -->
+<nav class="phase-nav">
+  <ul>
+    <li><a href="#ph1" class="p1">① 지원·선발</a></li>
+    <li><a href="#ph2" class="p2">② 사전 준비</a></li>
+    <li><a href="#ph3" class="p3">③ 국내 교육</a></li>
+    <li><a href="#ph4" class="p4">④ 해외 인턴십</a></li>
+    <li><a href="#ph5" class="p5">⑤ 귀국·수료</a></li>
+    <li><a href="#matrix">책임 분담</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════════ MAIN ════════════════════════════ -->
+<main class="main">
+
+  <!-- ─── PHASE 1 ─── -->
+  <section class="phase ph1" id="ph1">
+    <div class="phase-header">
+      <div class="phase-num">1</div>
+      <div class="phase-title-group">
+        <div class="phase-title">지원 및 선발 프로세스</div>
+        <div class="phase-desc">지원서 접수부터 최종 합격 확정까지</div>
+      </div>
+      <div class="phase-tag">PHASE 1</div>
+    </div>
+
+    <div class="steps">
+
+      <!-- 1-1 -->
+      <div class="step-card ph1-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c1)">1</div>
+          <div class="step-card-title">지원서 제출</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">온라인 또는 서면 지원서 작성 및 제출 (자기소개, 지원동기, 신앙 이력, 전공·경력 포함)</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">본부는 모집 공고 및 접수 창구 운영</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1-2 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c1)">2</div>
+          <div class="step-card-title">추천서 제출 (2인)</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">목회자 또는 신앙 공동체 지도자 1인, 학업·직업 관련 인사 1인의 추천서 수령 및 본부 제출</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">추천서 양식은 본부에서 제공</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1-3 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c1)">3</div>
+          <div class="step-card-title">서류 심사</div>
+          <div class="step-roles">
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">지원서 및 추천서 기반 서류 적합성 검토</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">검토 기준</div>
+            <div class="step-item-val">신앙 기반, 프로그램 취지 부합 여부, 해외 체류 결격 사유 유무</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1-4 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c1)">4</div>
+          <div class="step-card-title">심층 인터뷰</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">선교 비전, 프로젝트 이해도, 대인관계·적응력, 후원 모금 의지 등 확인</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">형식</div>
+            <div class="step-item-val">대면 또는 화상 인터뷰 1회 이상</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1-5 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c1)">5</div>
+          <div class="step-card-title">상담심리검사</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">본부 안내에 따라 상담심리검사 수검</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">목적</div>
+            <div class="step-item-val">개인 기질 파악 및 이후 멘토링·필드 배치 참고 자료로 활용. 결과는 본부 담당자와 지원자가 함께 검토</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1-6 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c1)">6</div>
+          <div class="step-card-title">최종 합격 통보 및 서약서 작성</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">서약서 포함 내용</div>
+            <div class="step-item-val">
+              <ul>
+                <li>프로그램 전 과정 성실 참여</li>
+                <li>후원 모금 의무</li>
+                <li>최종 보고서 제출</li>
+                <li>개인정보 처리 동의</li>
+                <li>안전·윤리 지침 준수</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">서약서 작성은 프로그램 참여의 공식 출발점</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+  </section>
+
+  <!-- ─── PHASE 2 ─── -->
+  <section class="phase ph2" id="ph2">
+    <div class="phase-header">
+      <div class="phase-num">2</div>
+      <div class="phase-title-group">
+        <div class="phase-title">사전 준비 프로세스</div>
+        <div class="phase-desc">필드 연결, 과제 선정, 출국 준비까지</div>
+      </div>
+      <div class="phase-tag">PHASE 2</div>
+    </div>
+
+    <div class="steps">
+
+      <!-- 2-1 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c2)">1</div>
+          <div class="step-card-title">필드 연결</div>
+          <div class="step-roles">
+            <span class="role-badge role-hq">본부</span>
+            <span class="role-badge role-field">필드</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">인턴 배치 가능 현장 선정 및 필드 담당자와 사전 협의</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">고려 사항</div>
+            <div class="step-item-val">인턴 수용 가능 여부, 현장 사역 성격, 비자 및 체류 조건</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">필드와의 협의 결과를 인턴에게 안내</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-2 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c2)">2</div>
+          <div class="step-card-title">필드 과제(프로젝트) 선정</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+            <span class="role-badge role-field">필드</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">현장 필요(Field Needs)와 인턴의 역량·관심을 고려하여 현장 연구 프로젝트 주제 및 목표 확정 (3자 협의)</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">산출물</div>
+            <div class="step-item-val">프로젝트 개요서 (주제, 연구 방법, 기대 산출물 명시)</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">국내 교육 기간 중 구체화 가능</div>
+          </div>
+          <div class="flex-note">
+            <span class="flex-note-icon">🔄</span>
+            지원자와 필드의 상황에 따라 유동적으로 적용 — 주제와 방법은 협의를 통해 조정 가능
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-3 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c2)">3</div>
+          <div class="step-card-title">후원자 모집 및 기도편지 작성</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부 지원</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">개인 후원 모금 (월 50~80만 원 목표), 기도편지 초안 작성 및 발송</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">본부 지원</div>
+            <div class="step-item-val">동역자 개발 방법 안내, 기도편지 양식 및 피드백 제공</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">후원 모금은 단순 재정 확보를 넘어 인턴의 소명 명료화 및 발표 훈련의 기회</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-4 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c2)">4</div>
+          <div class="step-card-title">출국 준비 (항공권 · 보험)</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부 지원</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">항공권 발권, 해외여행자 보험 가입 (의료·사고·긴급 귀국 포함), 비자 확인</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">필드 담당자와 현지 입국 조건 사전 확인</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── PHASE 3 ─── -->
+  <section class="phase ph3" id="ph3">
+    <div class="phase-header">
+      <div class="phase-num">3</div>
+      <div class="phase-title-group">
+        <div class="phase-title">국내 교육 프로세스</div>
+        <div class="phase-desc">약 6주 — 기본 교육 + 연구조사 역량 훈련</div>
+      </div>
+      <div class="phase-tag">PHASE 3 · 약 6주</div>
+    </div>
+
+    <div class="steps">
+
+      <!-- 3-1 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c3)">1</div>
+          <div class="step-card-title">오리엔테이션 및 기본 교육</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">주요 내용</div>
+            <div class="step-item-val">
+              <ul>
+                <li>선교학 기초 및 현대 선교 트렌드</li>
+                <li>문화 인류학 개론 및 타문화 이해</li>
+                <li>크로스컬처럴 커뮤니케이션</li>
+                <li>GYM 프로그램 운영 방식 및 기대 역할 안내</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">교육 방식</div>
+            <div class="step-item-val">블렌디드 학습 (온·오프라인 결합), 강의·토론·사례 연구</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-2 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c3)">2</div>
+          <div class="step-card-title">연구조사 및 프로젝트 관련 교육</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">주요 내용</div>
+            <div class="step-item-val">
+              <ul>
+                <li>연구 방법론 기초 (질적 연구, 인터뷰, 현장 관찰)</li>
+                <li>기초 데이터 수집 및 정리 방법</li>
+                <li>프로젝트 기획 및 관리 스킬</li>
+                <li>데이터 분석 도구 기초 활용 (Excel, Google Sheets 등)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">산출물</div>
+            <div class="step-item-val">필드 프로젝트 계획서 초안 완성</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-3 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c3)">3</div>
+          <div class="step-card-title">현장 안전 및 위기 관리 교육</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">현지 안전 수칙, 긴급 연락 체계, 비상 대처 매뉴얼, 윤리 지침 교육</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── PHASE 4 ─── -->
+  <section class="phase ph4" id="ph4">
+    <div class="phase-header">
+      <div class="phase-num">4</div>
+      <div class="phase-title-group">
+        <div class="phase-title">해외 인턴십 프로세스</div>
+        <div class="phase-desc">약 3개월 — 출국부터 귀국 전까지</div>
+      </div>
+      <div class="phase-tag">PHASE 4 · 약 3개월</div>
+    </div>
+
+    <div class="steps">
+
+      <!-- 4-1 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c4)">1</div>
+          <div class="step-card-title">출국 및 현지 오리엔테이션</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-field">필드</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">현지 생활 안내, 사역 환경 소개, 필드 내 역할 및 일과 안내, 현지 인력과의 첫 만남</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">오리엔테이션은 최소 1주 이상 진행 권장</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-2 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c4)">2</div>
+          <div class="step-card-title">필드 합류 및 프로젝트 진행</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-field">필드</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">
+              <ul>
+                <li>현장 사역 실무 참여 (OJT 방식)</li>
+                <li>사전 확정된 현장 연구 프로젝트 수행 (인터뷰, 관찰, 자료 수집)</li>
+                <li>현지 문화 이해 및 적응</li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex-note">
+            <span class="flex-note-icon">🔄</span>
+            지원자와 필드의 상황에 따라 유동적으로 적용 — 사전 확정된 방향성은 유지하되 세부 내용은 현장 협의로 조정
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-3 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c4)">3</div>
+          <div class="step-card-title">모니터링 (주 1회 정례)</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+            <span class="role-badge role-field">필드</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">형식</div>
+            <div class="step-item-val">온라인 화상 미팅 — 인턴 + 필드 담당자 + 본부 담당자 (3자 정례 회의)</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">주간 활동 보고, 프로젝트 진행 점검, 어려움 나눔, 다음 주 목표 설정</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">모니터링 기록은 간략한 양식으로 문서화 → 최종 보고서 자료로 활용</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-4 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c4)">4</div>
+          <div class="step-card-title">온라인 교육 진행</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">형식</div>
+            <div class="step-item-val">월 1~2회 온라인 그룹 세션</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">현장 경험 공유, 성찰 나눔, 연구 방법 피드백, 보고서 작성 사전 지도</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── PHASE 5 ─── -->
+  <section class="phase ph5" id="ph5">
+    <div class="phase-header">
+      <div class="phase-num">5</div>
+      <div class="phase-title-group">
+        <div class="phase-title">귀국 및 수료 프로세스</div>
+        <div class="phase-desc">디브리핑, 최종 보고서, 수료까지</div>
+      </div>
+      <div class="phase-tag">PHASE 5</div>
+    </div>
+
+    <div class="steps">
+
+      <!-- 5-1 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c5)">1</div>
+          <div class="step-card-title">귀국 후 디브리핑</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+            <span class="role-badge role-field">필드(온라인)</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">현장 경험 전반 성찰, 프로젝트 결과 1차 정리, 개인 비전 및 향후 방향 나눔</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">형식</div>
+            <div class="step-item-val">집중 디브리핑 세션 (1~2회) + 개별 면담</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-2 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c5)">2</div>
+          <div class="step-card-title">최종 보고서 작성</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부 지원</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">현장 연구 프로젝트 결과 정리 및 분석, 프로그램 참여 전반에 대한 성찰 포함</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">본부 지원</div>
+            <div class="step-item-val">보고서 양식 제공, 피드백 및 교정 지원</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">산출물</div>
+            <div class="step-item-val">최종 결과 보고서 → GP 본부·필드·후원자와 공유</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-3 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c5)">3</div>
+          <div class="step-card-title">결과 발표</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+            <span class="role-badge role-field">필드</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">현장 연구 및 프로젝트 주요 결과 발표, Q&A</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">후원자·후원 교회 대상 별도 보고 권장</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-4 -->
+      <div class="step-card" onclick="toggleCard(this)">
+        <div class="step-card-head">
+          <div class="step-number" style="background:var(--c5)">4</div>
+          <div class="step-card-title">수료</div>
+          <div class="step-roles">
+            <span class="role-badge role-intern">인턴</span>
+            <span class="role-badge role-hq">본부</span>
+          </div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-card-body">
+          <div class="step-item">
+            <div class="step-item-label">내용</div>
+            <div class="step-item-val">전 과정 이수 확인, 수료증 발급 (GP 선교회 및 협력 기관 명의), 추천서 제공</div>
+          </div>
+          <div class="step-item">
+            <div class="step-item-label">비고</div>
+            <div class="step-item-val">향후 선교 참여 의향자에 대해 GP 제도 안내 (재파송 가능성 포함)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── MATRIX ─── -->
+  <div class="divider"></div>
+
+  <section id="matrix">
+    <div class="section-eyebrow">책임 분담 매트릭스</div>
+    <div class="section-heading">단계별 주체 역할</div>
+    <div class="section-sub">● 주 담당 &nbsp;◐ 보조 참여</div>
+
+    <div class="matrix-section">
+      <div class="matrix-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="min-width:180px">단계</th>
+              <th>인턴</th>
+              <th>본부</th>
+              <th>필드</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>지원서 제출</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-sub">◐</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>추천서 제출</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-sub">◐</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>서류 심사</td>
+              <td class="cell-center">—</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>인터뷰 · 심리검사</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>서약서 작성</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>필드 연결</td>
+              <td class="cell-center">—</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+            </tr>
+            <tr>
+              <td>필드 과제 선정</td>
+              <td class="cell-center"><span class="dot-sub">◐</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+            </tr>
+            <tr>
+              <td>후원 모집 · 기도편지</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-sub">◐</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>출국 준비</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-sub">◐</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>국내 교육</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>현지 오리엔테이션</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+            </tr>
+            <tr>
+              <td>프로젝트 진행</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+            </tr>
+            <tr>
+              <td>주간 모니터링</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+            </tr>
+            <tr>
+              <td>온라인 교육</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>디브리핑</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-sub">◐</span></td>
+            </tr>
+            <tr>
+              <td>최종 보고서</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-sub">◐</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+            <tr>
+              <td>수료</td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center"><span class="dot-main">●</span></td>
+              <td class="cell-center">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <span><span class="dot-main">●</span> 주 담당</span>
+        <span><span class="dot-sub">◐</span> 보조 참여</span>
+        <span>— 해당 없음</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><span>GP</span> Mission Korea</div>
+      <div class="footer-tagline">Global Partners — 하나님 나라 확장을 위해<br>달려가는 젊은이들의 열정이<br>선교 현장에서 빛을 발하게 합니다.</div>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <ul class="contact-list">
+        <li>
+          <span class="ci">📍</span>
+          <span>05810 서울시 송파구 새말로8길 17 (문정동)</span>
+        </li>
+        <li>
+          <span class="ci">📞</span>
+          <span><a href="tel:02-443-0883">02-443-0883</a></span>
+        </li>
+        <li>
+          <span class="ci">📠</span>
+          <span>02-443-0449</span>
+        </li>
+        <li>
+          <span class="ci">✉️</span>
+          <span><a href="mailto:info@gpkorea.org">info@gpkorea.org</a></span>
+        </li>
+        <li>
+          <span class="ci">🌐</span>
+          <span><a href="https://gpinternational.org/" target="_blank">gpinternational.org</a></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 GP Mission Korea — GYM Program</span>
+    <span>Global Youngman Move</span>
+  </div>
+</footer>
+
+<!-- ════════════════════════════ JS ════════════════════════════ -->
+<script>
+  function toggleCard(card) {
+    card.classList.toggle('open');
+  }
+
+  /* Active nav highlight on scroll */
+  const sections = document.querySelectorAll('.phase, #matrix');
+  const navLinks = document.querySelectorAll('.phase-nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === '#' + id) a.classList.add('active');
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  /* Stagger animation on phase sections */
+  const phases = document.querySelectorAll('.phase');
+  phases.forEach((p, i) => {
+    p.style.animationDelay = (i * 0.08) + 's';
+  });
+</script>
+
+</body>
+</html>
